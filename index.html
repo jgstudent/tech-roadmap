@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Junior's Tech Roadmap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;600;800&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0d12;
+      --surface: #111620;
+      --border: #1e2a3a;
+      --accent: #00d4ff;
+      --accent2: #ff6b35;
+      --green: #39ff14;
+      --text: #c8d8e8;
+      --muted: #4a6070;
+      --done: #39ff14;
+      --in-progress: #00d4ff;
+      --todo: #2a3a4a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orb */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    header {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .header-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-tag::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,255,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,212,255,0); }
+    }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(42px, 7vw, 80px);
+      line-height: 0.9;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    h1 span {
+      color: var(--accent);
+      display: block;
+    }
+
+    .header-meta {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .header-meta a {
+      color: var(--accent2);
+      text-decoration: none;
+    }
+
+    .header-meta a:hover { text-decoration: underline; }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* PHASE SECTIONS */
+    .phases { margin-top: 40px; }
+
+    .phase {
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.5s forwards;
+    }
+
+    .phase:nth-child(1) { animation-delay: 0.1s; }
+    .phase:nth-child(2) { animation-delay: 0.2s; }
+    .phase:nth-child(3) { animation-delay: 0.3s; }
+    .phase:nth-child(4) { animation-delay: 0.4s; }
+    .phase:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phase-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    .phase-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .phase-timeline {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      margin-left: auto;
+    }
+
+    .phase-progress-bar {
+      height: 2px;
+      background: var(--border);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .phase-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1s ease;
+      position: relative;
+    }
+
+    .phase-progress-fill::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: -3px;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* TASK GRID */
+    .tasks {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px;
+    }
+
+    .task {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--todo);
+      transition: background 0.2s;
+    }
+
+    .task.done::before { background: var(--done); }
+    .task.in-progress::before { background: var(--in-progress); }
+
+    .task:hover {
+      border-color: var(--accent);
+      background: #141c28;
+    }
+
+    .task-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--muted);
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .task.done .task-checkbox {
+      background: var(--done);
+      border-color: var(--done);
+      box-shadow: 0 0 8px rgba(57,255,20,0.4);
+    }
+
+    .task.in-progress .task-checkbox {
+      background: transparent;
+      border-color: var(--in-progress);
+      box-shadow: 0 0 8px rgba(0,212,255,0.3);
+    }
+
+    .task-checkbox svg { display: none; }
+    .task.done .task-checkbox svg { display: block; }
+
+    .task-body { flex: 1; }
+
+    .task-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .task.done .task-name {
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-color: var(--done);
+    }
+
+    .task-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    .task-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+
+    .badge-cert { background: rgba(255,107,53,0.15); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); }
+    .badge-lab  { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+    .badge-study { background: rgba(57,255,20,0.1); color: var(--green); border: 1px solid rgba(57,255,20,0.2); }
+    .badge-biz  { background: rgba(150,100,255,0.1); color: #a07fff; border: 1px solid rgba(150,100,255,0.3); }
+
+    /* FOOTER */
+    footer {
+      margin-top: 80px;
+      padding: 32px 0 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 16px;
+    }
+
+    .footer-mono {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .last-updated {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.done { background: var(--done); box-shadow: 0 0 6px var(--done); }
+    .legend-dot.in-progress { background: var(--in-progress); box-shadow: 0 0 6px var(--in-progress); }
+    .legend-dot.todo { background: var(--muted); }
+
+    /* ABOUT SECTION */
+    .about {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      padding: 24px 28px;
+      margin: 32px 0 40px;
+    }
+
+    .about-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .about p + p { margin-top: 8px; }
+
+    /* HOMELAB section */
+    .homelab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .infra-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .infra-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .infra-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .infra-detail {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .tasks { grid-template-columns: 1fr; }
+      .header-meta { gap: 16px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-tag">LIVE PROGRESS TRACKER</div>
+    <h1>Junior's <span>Tech Roadmap</span></h1>
+    <div class="header-meta">
+      <span>B.S. Computer System Networking</span>
+      <span>//</span>
+      <span>CCNA → Network Security → DevOps → WISP</span>
+      <span>//</span>
+      <a href="https://github.com/" target="_blank" id="gh-link">github.com/junior</a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <div class="about" style="margin-top:32px;">
+    <div class="about-title">// About This Roadmap</div>
+    <p>This is my public learning log and career tracker. I'm a college student in Computer System Networking working toward my CCNA, a Network Security cert, and long-term goals in Network DevOps, running a WISP business, and offering hosted VoIP services.</p>
+    <p>I document everything in my homelab — Proxmox, Frigate NVR, Home Assistant, OMV NAS — as both a learning environment and a business portfolio. Click any task to mark it complete.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat">
+      <div class="stat-num" id="stat-done">0</div>
+      <div class="stat-label">Completed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-ip">0</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Total Tasks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-pct">0%</div>
+      <div class="stat-label">Overall Progress</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot done"></div>COMPLETED</div>
+    <div class="legend-item"><div class="legend-dot in-progress"></div>IN PROGRESS</div>
+    <div class="legend-item"><div class="legend-dot todo"></div>UPCOMING</div>
+  </div>
+
+  <!-- PHASES -->
+  <div class="phases" id="phases"></div>
+
+  <!-- HOMELAB -->
+  <section style="margin-top:48px;" class="phase">
+    <div class="phase-header">
+      <span class="phase-num">LAB</span>
+      <span class="phase-title">Homelab Infrastructure</span>
+    </div>
+    <div class="homelab-grid">
+      <div class="infra-card">
+        <div class="infra-label">Proxmox Node</div>
+        <div class="infra-name">pve-aurora</div>
+        <div class="infra-detail">Alienware R13 · i9 · RTX 3080 Ti</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">NVR / Cameras</div>
+        <div class="infra-name">Frigate LXC + Reolink</div>
+        <div class="infra-detail">CT 210 · 5 cameras · 192.168.40.210</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">Home Automation</div>
+        <div class="infra-name">Home Assistant VM</div>
+        <div class="infra-detail">192.168.40.111 · Zigbee · MQTT</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">NAS (In Build)</div>
+        <div class="infra-name">OpenMediaVault</div>
+        <div class="infra-detail">Hyundai · 2× Seagate Exos X20 20TB · RAID 1</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">Remote Access</div>
+        <div class="infra-name">Tailscale</div>
+        <div class="infra-detail">ACL-hardened · Google 2FA · VLANs 10/20/30/40/51</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">Solar (Planning)</div>
+        <div class="infra-name">48V Hybrid System</div>
+        <div class="infra-detail">QCELLS 480W panels · Growatt/EG4/Deye inverter</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-mono">// JUNIOR · NETWORK ENGINEER IN TRAINING</div>
+    <div class="last-updated" id="last-updated"></div>
+  </footer>
+
+</div>
+
+<script>
+  // ─── DATA ────────────────────────────────────────────────────────────────────
+  const roadmap = [
+    {
+      id: 'phase1',
+      title: 'Foundation & CCNA',
+      timeline: 'NOW → Month 6',
+      tasks: [
+        { id: 't1',  name: 'Complete Cisco 3 coursework', sub: 'Enrolled', badge: 'study', status: 'in-progress' },
+        { id: 't2',  name: 'Master STP — Root Bridge, port roles, BPDUs', sub: 'TCP/IP & OSI models', badge: 'study', status: 'in-progress' },
+        { id: 't3',  name: 'EtherChannel configuration & troubleshooting', sub: 'LACP / PAgP', badge: 'study', status: 'todo' },
+        { id: 't4',  name: 'OSPF single-area & multi-area', sub: 'DR/BDR election, LSAs', badge: 'study', status: 'todo' },
+        { id: 't5',  name: 'ACL (standard & extended) labs', sub: 'Named ACLs, IPv6 ACLs', badge: 'lab', status: 'todo' },
+        { id: 't6',  name: 'Wireshark packet capture analysis', sub: 'TCP handshake, OSPF, DNS', badge: 'lab', status: 'in-progress' },
+        { id: 't7',  name: 'Pass the CCNA exam (200-301)', sub: 'Cisco Certified Network Associate', badge: 'cert', status: 'todo' },
+        { id: 't8',  name: 'Python: JSON parsing & file I/O', sub: 'Active Python course', badge: 'study', status: 'in-progress' },
+        { id: 't9',  name: 'Python: string manipulation & error handling', sub: 'Active Python course', badge: 'study', status: 'in-progress' },
+      ]
+    },
+    {
+      id: 'phase2',
+      title: 'Network Security Cert',
+      timeline: 'Month 4 → Month 10',
+      tasks: [
+        { id: 't10', name: 'Choose security cert path (CyberOps / Security+)', sub: 'Cisco or CompTIA', badge: 'cert', status: 'todo' },
+        { id: 't11', name: 'Firewall & VPN fundamentals', sub: 'pfSense / Cisco ASA', badge: 'study', status: 'todo' },
+        { id: 't12', name: 'Harden homelab VLANs & ACLs', sub: 'VLAN 10/20/30/40/51 audit', badge: 'lab', status: 'in-progress' },
+        { id: 't13', name: 'Tailscale ACL deep-dive & zero-trust review', sub: 'Current setup audit', badge: 'lab', status: 'in-progress' },
+        { id: 't14', name: 'Pass Network Security certification exam', sub: 'Target certification', badge: 'cert', status: 'todo' },
+      ]
+    },
+    {
+      id: 'phase3',
+      title: 'Linux & Automation',
+      timeline: 'Month 8 → Month 14',
+      tasks: [
+        { id: 't15', name: 'Linux administration fundamentals', sub: 'Ubuntu / Debian on Proxmox', badge: 'study', status: 'in-progress' },
+        { id: 't16', name: 'Ansible basics — playbooks & inventory', sub: 'Automate homelab configs', badge: 'lab', status: 'todo' },
+        { id: 't17', name: 'Ansible: network device automation', sub: 'Cisco IOS modules', badge: 'lab', status: 'todo' },
+        { id: 't18', name: 'Git & GitHub for infrastructure-as-code', sub: 'Version-control all configs', badge: 'lab', status: 'in-progress' },
+        { id: 't19', name: 'Python scripting for network automation', sub: 'Netmiko, NAPALM, Paramiko', badge: 'study', status: 'todo' },
+        { id: 't20', name: 'Complete Bachelor\'s degree', sub: 'Computer System Networking', badge: 'cert', status: 'in-progress' },
+      ]
+    },
+    {
+      id: 'phase4',
+      title: 'VoIP & WISP Launch',
+      timeline: 'Month 12 → Month 20',
+      tasks: [
+        { id: 't21', name: 'FreePBX / Asterisk on Proxmox — pilot deploy', sub: 'Voip.ms SIP trunk', badge: 'lab', status: 'todo' },
+        { id: 't22', name: 'FreePBX nonprofit pilot project', sub: 'Real-world hosted VoIP test', badge: 'biz', status: 'todo' },
+        { id: 't23', name: 'WISP business plan & FCC licensing research', sub: 'CBRS / Part 15 spectrum', badge: 'biz', status: 'todo' },
+        { id: 't24', name: 'Ubiquiti airMAX equipment — first test tower', sub: 'Point-to-multipoint setup', badge: 'lab', status: 'todo' },
+        { id: 't25', name: 'First paying VoIP client onboarded', sub: 'Hosted PBX service', badge: 'biz', status: 'todo' },
+        { id: 't26', name: 'First WISP subscriber connected', sub: 'Wireless ISP go-live', badge: 'biz', status: 'todo' },
+      ]
+    },
+    {
+      id: 'phase5',
+      title: 'Network DevOps & Beyond',
+      timeline: 'Month 18 → Month 24+',
+      tasks: [
+        { id: 't27', name: 'CCNP Enterprise — begin studies', sub: 'Post-CCNA advanced track', badge: 'cert', status: 'todo' },
+        { id: 't28', name: 'CI/CD pipeline for network config changes', sub: 'GitLab / GitHub Actions', badge: 'lab', status: 'todo' },
+        { id: 't29', name: 'Network monitoring stack — Grafana + Prometheus', sub: 'Self-hosted observability', badge: 'lab', status: 'todo' },
+        { id: 't30', name: 'Evaluate master\'s in Wireless Network Engineering', sub: 'Business-focused grad program', badge: 'cert', status: 'todo' },
+        { id: 't31', name: 'Solar system online — homelab on solar power', sub: '48V off-grid / grid-tied hybrid', badge: 'lab', status: 'in-progress' },
+        { id: 't32', name: 'NAS build complete — OMV RAID 1 operational', sub: '2× Exos X20 · ~20TB usable', badge: 'lab', status: 'in-progress' },
+      ]
+    }
+  ];
+
+  // ─── STATE ───────────────────────────────────────────────────────────────────
+  const STORAGE_KEY = 'junior_roadmap_v2';
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch { return {}; }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  let state = loadState();
+
+  // ─── RENDER ──────────────────────────────────────────────────────────────────
+  function getStatus(task) {
+    if (state[task.id] === 'done') return 'done';
+    if (state[task.id] === 'in-progress') return 'in-progress';
+    return task.status; // default from data
+  }
+
+  function cycleStatus(task) {
+    const current = getStatus(task);
+    if (current === 'todo') state[task.id] = 'in-progress';
+    else if (current === 'in-progress') state[task.id] = 'done';
+    else state[task.id] = 'todo';
+    saveState(state);
+    render();
+  }
+
+  function render() {
+    const phasesEl = document.getElementById('phases');
+    phasesEl.innerHTML = '';
+
+    let totalDone = 0, totalIP = 0, totalAll = 0;
+
+    roadmap.forEach((phase, pi) => {
+      const phaseDone = phase.tasks.filter(t => getStatus(t) === 'done').length;
+      const phaseTotal = phase.tasks.length;
+      const pct = Math.round((phaseDone / phaseTotal) * 100);
+      totalDone += phaseDone;
+      totalIP += phase.tasks.filter(t => getStatus(t) === 'in-progress').length;
+      totalAll += phaseTotal;
+
+      const phaseEl = document.createElement('div');
+      phaseEl.className = 'phase';
+      phaseEl.style.animationDelay = `${pi * 0.1}s`;
+
+      phaseEl.innerHTML = `
+        <div class="phase-header">
+          <span class="phase-num">PHASE 0${pi+1}</span>
+          <span class="phase-title">${phase.title}</span>
+          <span class="phase-timeline">${phase.timeline}</span>
+        </div>
+        <div class="phase-progress-bar">
+          <div class="phase-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="tasks">
+          ${phase.tasks.map(task => {
+            const st = getStatus(task);
+            const badgeMap = { cert:'badge-cert', lab:'badge-lab', study:'badge-study', biz:'badge-biz' };
+            const badgeLabel = { cert:'CERT', lab:'LAB', study:'STUDY', biz:'BUSINESS' };
+            return `
+              <div class="task ${st}" data-id="${task.id}" title="Click to cycle status">
+                <div class="task-checkbox">
+                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="#0a0d12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="task-body">
+                  <div class="task-name">${task.name}</div>
+                  <div class="task-sub">${task.sub}</div>
+                </div>
+                <div class="task-badge ${badgeMap[task.badge]}">${badgeLabel[task.badge]}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      phasesEl.appendChild(phaseEl);
+    });
+
+    // Stats
+    document.getElementById('stat-done').textContent = totalDone;
+    document.getElementById('stat-ip').textContent = totalIP;
+    document.getElementById('stat-total').textContent = totalAll;
+    document.getElementById('stat-pct').textContent = Math.round((totalDone / totalAll) * 100) + '%';
+
+    // Timestamp
+    document.getElementById('last-updated').textContent =
+      `// LAST UPDATED: ${new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }).toUpperCase()}`;
+
+    // Attach click listeners
+    document.querySelectorAll('.task').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.dataset.id;
+        const task = roadmap.flatMap(p => p.tasks).find(t => t.id === id);
+        if (task) cycleStatus(task);
+      });
+    });
+  }
+
+  render();
+</script>
+</body>
+</html>
